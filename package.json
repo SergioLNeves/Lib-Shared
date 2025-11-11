@@ -1,21 +1,54 @@
 {
-  "name": "lib-shared",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@sergiolneves/lib-shared",
+  "private": false,
+  "version": "0.1.0",
+  "description": "Biblioteca de componentes React compartilhados com Tailwind CSS",
   "type": "module",
+  "keywords": [
+    "react",
+    "components",
+    "tailwindcss",
+    "ui",
+    "library"
+  ],
+  "author": "SergioLNeves",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SergioLNeves/Lib-Share.git"
+  },
+  "bin": {
+    "lib-shared": "./cli.js"
+  },
+  "main": "./dist/lib-shared.umd.js",
+  "module": "./dist/lib-shared.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/lib-shared.es.js",
+      "require": "./dist/lib-shared.umd.js"
+    },
+    "./styles.css": "./dist/style.css"
+  },
+  "files": [
+    "dist",
+    "cli.js",
+    "registry"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:lib": "tsc --project tsconfig.lib.json && vite build --config vite.config.lib.ts",
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepublishOnly": "pnpm run build:lib"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
