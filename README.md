@@ -2,7 +2,7 @@
 
 > Componentes React que você **copia** para o seu projeto. Sem dependências npm, sem breaking changes, controle total.
 
-[![GitHub](https://img.shields.io/badge/GitHub-SergioLNeves-blue)](https://github.com/SergioLNeves/Lib-Share)
+[![GitHub](https://img.shields.io/badge/GitHub-SergioLNeves-blue)](https://github.com/SergioLNeves/Lib-Shared)
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/SergioLNeves/Lib-Share)
 
 ---

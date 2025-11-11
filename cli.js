@@ -14,7 +14,7 @@ import fs from 'fs';
 import path from 'path';
 import https from 'https';
 
-const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/SergioLNeves/Lib-Share/master/src';
+const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/SergioLNeves/Lib-Shared/master/src';
 
 const registry = {
     button: {

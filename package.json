@@ -15,7 +15,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SergioLNeves/Lib-Share.git"
+    "url": "https://github.com/SergioLNeves/Lib-Shared.git"
   },
   "bin": {
     "lib-shared": "./cli.js"
