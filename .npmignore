@@ -13,16 +13,19 @@ vitest.shims.d.ts
 # Development
 node_modules/
 .vscode/
+.idea/
 *.log
 .DS_Store
 
 # Build artifacts
 *.tsbuildinfo
 storybook-static/
+coverage/
 
 # Documentation (optional - remova se quiser incluir)
 *.md
 !README.md
+!SECURITY.md
 
 # Git
 .git/
@@ -42,3 +45,18 @@ storybook-static/
 
 # HTML
 index.html
+
+# Security - Never publish these files
+.env*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+secrets.json
+.npmrc
+.yarnrc.yml
+*.cert
+*.crt
+auth.json
+credentials.json

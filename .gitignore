@@ -25,3 +25,19 @@ dist-ssr
 
 *storybook.log
 storybook-static
+
+# Security - Never commit these files
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.p12
+*.pfx
+secrets.json
+.npmrc
+.yarnrc.yml
+*.cert
+*.crt
+auth.json
+credentials.json

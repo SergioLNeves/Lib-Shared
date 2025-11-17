@@ -4,9 +4,23 @@ import { execSync } from "child_process";
 import fs from "fs/promises";
 import path from "path";
 import https from "https";
+import crypto from "crypto";
 
 const REGISTRY_URL = "https://sergiolneves.github.io/Lib-Shared/r";
 const REQUIRED_DEPS = ["class-variance-authority", "clsx", "tailwind-merge"];
+
+// Allowed component names (whitelist to prevent path traversal)
+const ALLOWED_COMPONENTS = ["button"];
+
+// Validate component name to prevent path traversal attacks
+function isValidComponentName(name) {
+  if (!name || typeof name !== "string") return false;
+  // Only allow alphanumeric, dash, and underscore
+  if (!/^[a-z0-9_-]+$/i.test(name)) return false;
+  // Check against whitelist
+  if (!ALLOWED_COMPONENTS.includes(name.toLowerCase())) return false;
+  return true;
+}
 
 // === Utilities ===
 
@@ -33,22 +47,14 @@ const fetchJson = (url) =>
       .on("error", reject);
   });
 
-const detectPackageManager = () => {
+const detectPackageManager = async () => {
   try {
-    if (
-      fs
-        .access("pnpm-lock.yaml")
-        .then(() => true)
-        .catch(() => false)
-    )
-      return "pnpm";
-    if (
-      fs
-        .access("yarn.lock")
-        .then(() => true)
-        .catch(() => false)
-    )
-      return "yarn";
+    await fs.access("pnpm-lock.yaml");
+    return "pnpm";
+  } catch {}
+  try {
+    await fs.access("yarn.lock");
+    return "yarn";
   } catch {}
   return "npm";
 };
@@ -67,9 +73,20 @@ async function installDependencies() {
 
   try {
     const pm = await detectPackageManager();
+    
+    // Validate package manager (prevent command injection)
+    const validPms = ["npm", "yarn", "pnpm"];
+    if (!validPms.includes(pm)) {
+      throw new Error("Invalid package manager detected");
+    }
+    
     const cmd = `${getInstallCommand(pm)} ${REQUIRED_DEPS.join(" ")}`;
 
-    execSync(cmd, { stdio: "inherit" });
+    execSync(cmd, { 
+      stdio: "inherit",
+      shell: "/bin/sh", // Use explicit shell
+      timeout: 120000 // 2 minute timeout
+    });
     logger.success("✅ Dependências instaladas");
   } catch (error) {
     logger.warn("⚠️  Instale manualmente:");
@@ -100,6 +117,11 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 async function writeComponentFile(componentName, content) {
+  // Validate component name before using in path
+  if (!isValidComponentName(componentName)) {
+    throw new Error(`Invalid component name: ${componentName}`);
+  }
+  
   const destPath = path.join(
     process.cwd(),
     "src",
@@ -108,13 +130,20 @@ async function writeComponentFile(componentName, content) {
     `${componentName}.tsx`,
   );
 
+  // Ensure the path is within expected directory (prevent path traversal)
+  const normalizedPath = path.normalize(destPath);
+  const expectedBase = path.join(process.cwd(), "src", "components", "ui");
+  if (!normalizedPath.startsWith(expectedBase)) {
+    throw new Error("Invalid path detected");
+  }
+
   try {
     await fs.access(destPath);
     logger.warn(`⚠️  ${componentName}.tsx já existe, pulando...`);
     return false;
   } catch {
     await fs.mkdir(path.dirname(destPath), { recursive: true });
-    await fs.writeFile(destPath, content);
+    await fs.writeFile(destPath, content, { mode: 0o644 }); // Set secure file permissions
     logger.success(`✅ ${componentName}.tsx criado`);
     return true;
   }
@@ -137,9 +166,21 @@ async function listComponents() {
 }
 
 async function addComponent(componentName) {
+  // Validate component name first
+  if (!isValidComponentName(componentName)) {
+    throw new Error(
+      `Invalid component name: ${componentName}. Only alphanumeric characters, dashes, and underscores are allowed.`
+    );
+  }
+  
   logger.info(`📦 Buscando ${componentName}...`);
 
   const data = await fetchJson(`${REGISTRY_URL}/${componentName}.json`);
+
+  // Validate response data structure
+  if (!data || !data.title || !data.files || !Array.isArray(data.files)) {
+    throw new Error("Invalid component data received from registry");
+  }
 
   logger.success(`✅ ${data.title} encontrado!`);
   logger.plain(`   ${data.description}\n`);
@@ -148,6 +189,10 @@ async function addComponent(componentName) {
   await ensureUtilsFile();
 
   for (const file of data.files) {
+    if (!file.content || typeof file.content !== "string") {
+      logger.warn(`⚠️  Skipping invalid file in ${componentName}`);
+      continue;
+    }
     await writeComponentFile(componentName, file.content);
   }
 
