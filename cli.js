@@ -1,181 +1,198 @@
 #!/usr/bin/env node
 
-/**
- * CLI para adicionar componentes ao projeto
- * Inspirado no shadcn/ui
- * 
- * Uso:
- *   npx lib-shared add button
- *   pnpm dlx lib-shared add button
- */
+import { execSync } from "child_process";
+import fs from "fs/promises";
+import path from "path";
+import https from "https";
 
-import { execSync } from 'child_process';
-import fs from 'fs';
-import path from 'path';
-import https from 'https';
+const REGISTRY_URL = "https://sergiolneves.github.io/Lib-Shared/r";
+const REQUIRED_DEPS = ["class-variance-authority", "clsx", "tailwind-merge"];
 
-const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/SergioLNeves/Lib-Share/master/src';
+// === Utilities ===
 
-const registry = {
-    button: {
-        name: "button",
-        files: ["components/button/Button.tsx"],
-        dependencies: ["class-variance-authority", "clsx", "tailwind-merge"],
-        registryDependencies: ["utils"],
-    },
-    utils: {
-        name: "utils",
-        files: ["lib/utils.ts"],
-        dependencies: ["clsx", "tailwind-merge"],
-    },
+const logger = {
+  info: (msg) => console.log(`\x1b[36m${msg}\x1b[0m`),
+  success: (msg) => console.log(`\x1b[32m${msg}\x1b[0m`),
+  warn: (msg) => console.log(`\x1b[33m${msg}\x1b[0m`),
+  error: (msg) => console.log(`\x1b[31m${msg}\x1b[0m`),
+  plain: (msg) => console.log(msg),
 };
 
-// Cores para terminal
-const colors = {
-    reset: '\x1b[0m',
-    green: '\x1b[32m',
-    blue: '\x1b[34m',
-    yellow: '\x1b[33m',
-    red: '\x1b[31m',
-    cyan: '\x1b[36m',
+const fetchJson = (url) =>
+  new Promise((resolve, reject) => {
+    https
+      .get(url, (res) => {
+        let data = "";
+        res.on("data", (chunk) => (data += chunk));
+        res.on("end", () => {
+          res.statusCode === 200
+            ? resolve(JSON.parse(data))
+            : reject(new Error(`HTTP ${res.statusCode}`));
+        });
+      })
+      .on("error", reject);
+  });
+
+const detectPackageManager = () => {
+  try {
+    if (
+      fs
+        .access("pnpm-lock.yaml")
+        .then(() => true)
+        .catch(() => false)
+    )
+      return "pnpm";
+    if (
+      fs
+        .access("yarn.lock")
+        .then(() => true)
+        .catch(() => false)
+    )
+      return "yarn";
+  } catch {}
+  return "npm";
 };
 
-function log(message, color = 'reset') {
-    console.log(`${colors[color]}${message}${colors.reset}`);
+const getInstallCommand = (pm) =>
+  ({
+    npm: "npm install",
+    yarn: "yarn add",
+    pnpm: "pnpm add",
+  })[pm];
+
+// === Core Functions ===
+
+async function installDependencies() {
+  logger.info("📥 Instalando dependências...");
+
+  try {
+    const pm = await detectPackageManager();
+    const cmd = `${getInstallCommand(pm)} ${REQUIRED_DEPS.join(" ")}`;
+
+    execSync(cmd, { stdio: "inherit" });
+    logger.success("✅ Dependências instaladas");
+  } catch (error) {
+    logger.warn("⚠️  Instale manualmente:");
+    logger.plain(`  npm install ${REQUIRED_DEPS.join(" ")}`);
+  }
 }
 
-function downloadFile(url, dest) {
-    return new Promise((resolve, reject) => {
-        const file = fs.createWriteStream(dest);
-        https.get(url, (response) => {
-            if (response.statusCode === 200) {
-                response.pipe(file);
-                file.on('finish', () => {
-                    file.close();
-                    resolve();
-                });
-            } else {
-                reject(new Error(`Failed to download: ${response.statusCode}`));
-            }
-        }).on('error', (err) => {
-            fs.unlink(dest, () => { });
-            reject(err);
-        });
-    });
+async function ensureUtilsFile() {
+  const utilsPath = path.join(process.cwd(), "src", "lib", "utils.ts");
+
+  try {
+    await fs.access(utilsPath);
+    return;
+  } catch {
+    logger.info("📝 Criando utils.ts...");
+    await fs.mkdir(path.dirname(utilsPath), { recursive: true });
+
+    const content = `import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+`;
+    await fs.writeFile(utilsPath, content);
+    logger.success("✅ utils.ts criado");
+  }
+}
+
+async function writeComponentFile(componentName, content) {
+  const destPath = path.join(
+    process.cwd(),
+    "src",
+    "components",
+    "ui",
+    `${componentName}.tsx`,
+  );
+
+  try {
+    await fs.access(destPath);
+    logger.warn(`⚠️  ${componentName}.tsx já existe, pulando...`);
+    return false;
+  } catch {
+    await fs.mkdir(path.dirname(destPath), { recursive: true });
+    await fs.writeFile(destPath, content);
+    logger.success(`✅ ${componentName}.tsx criado`);
+    return true;
+  }
+}
+
+// === Commands ===
+
+async function listComponents() {
+  logger.info("📦 Buscando componentes disponíveis...\n");
+
+  const registry = await fetchJson(`${REGISTRY_URL}/registry.json`);
+
+  logger.success("✨ Componentes disponíveis:\n");
+  registry.items.forEach(({ name, description }) => {
+    logger.plain(`  \x1b[34m${name}\x1b[0m`);
+    logger.plain(`    ${description}`);
+  });
+
+  logger.warn("\n💡 Uso: npx @sergiolneves/lib-shared add <componente>");
 }
 
 async function addComponent(componentName) {
-    const component = registry[componentName];
+  logger.info(`📦 Buscando ${componentName}...`);
 
-    if (!component) {
-        log(`❌ Componente "${componentName}" não encontrado.`, 'red');
-        log('\nComponentes disponíveis:', 'cyan');
-        Object.keys(registry).forEach(name => {
-            log(`  - ${name}`, 'blue');
-        });
-        process.exit(1);
-    }
+  const data = await fetchJson(`${REGISTRY_URL}/${componentName}.json`);
 
-    log(`\n📦 Adicionando ${component.name}...`, 'cyan');
+  logger.success(`✅ ${data.title} encontrado!`);
+  logger.plain(`   ${data.description}\n`);
 
-    // 1. Instalar dependências npm
-    if (component.dependencies && component.dependencies.length > 0) {
-        log('\n📥 Instalando dependências...', 'yellow');
-        const deps = component.dependencies.join(' ');
+  await installDependencies();
+  await ensureUtilsFile();
 
-        try {
-            // Detectar package manager
-            const packageManager = fs.existsSync('pnpm-lock.yaml') ? 'pnpm' :
-                fs.existsSync('yarn.lock') ? 'yarn' : 'npm';
+  for (const file of data.files) {
+    await writeComponentFile(componentName, file.content);
+  }
 
-            const installCmd = packageManager === 'npm' ? 'npm install' :
-                packageManager === 'yarn' ? 'yarn add' : 'pnpm add';
-
-            log(`  ${installCmd} ${deps}`, 'blue');
-            execSync(`${installCmd} ${deps}`, { stdio: 'inherit' });
-            log('✅ Dependências instaladas', 'green');
-        } catch (error) {
-            log('⚠️  Erro ao instalar dependências. Instale manualmente:', 'yellow');
-            log(`  npm install ${deps}`, 'blue');
-        }
-    }
-
-    // 2. Adicionar dependências de registry primeiro
-    if (component.registryDependencies) {
-        for (const dep of component.registryDependencies) {
-            if (!registry[dep]) continue;
-
-            log(`\n📦 Adicionando dependência: ${dep}`, 'yellow');
-            await addComponentFiles(registry[dep]);
-        }
-    }
-
-    // 3. Adicionar arquivos do componente
-    await addComponentFiles(component);
-
-    log(`\n✅ ${component.name} adicionado com sucesso!`, 'green');
-    log(`\n📝 Uso:`, 'cyan');
-
-    if (componentName === 'button') {
-        log(`
-  import { Button } from '@/components/button/Button';
-  
-  <Button variant="default">Click me</Button>
-`, 'blue');
-    } else if (componentName === 'utils') {
-        log(`
-  import { cn } from '@/lib/utils';
-  
-  const className = cn('base-class', 'additional-class');
-`, 'blue');
-    }
+  logger.success(`\n🎉 ${data.title} adicionado com sucesso!\n`);
+  logger.info("📝 Exemplo de uso:\n");
+  logger.plain(`  import { Button } from '@/components/ui/${componentName}'`);
+  logger.plain(`  <Button variant="default">Click me</Button>`);
 }
 
-async function addComponentFiles(component) {
-    for (const filePath of component.files) {
-        const url = `${GITHUB_RAW_URL}/${filePath}`;
-        const destPath = path.join(process.cwd(), 'src', filePath);
-        const destDir = path.dirname(destPath);
+function showHelp() {
+  logger.info("\n🎨 Lib Shared - CLI");
+  logger.plain("   Componentes React universais para qualquer projeto\n");
+  logger.warn("Comandos:");
+  logger.plain(
+    "  list                    Lista todos os componentes disponíveis",
+  );
+  logger.plain("  add <componente>        Adiciona um componente ao projeto");
+  logger.warn("\nExemplos:");
+  logger.plain("  npx @sergiolneves/lib-shared list");
+  logger.plain("  npx @sergiolneves/lib-shared add button");
+  logger.info("\n📖 Documentação: https://sergiolneves.github.io/Lib-Shared");
+}
 
-        // Criar diretório se não existir
-        if (!fs.existsSync(destDir)) {
-            fs.mkdirSync(destDir, { recursive: true });
-        }
+// === Main ===
 
-        // Verificar se arquivo já existe
-        if (fs.existsSync(destPath)) {
-            log(`  ⚠️  ${filePath} já existe, pulando...`, 'yellow');
-            continue;
-        }
+async function main() {
+  const [command, componentName] = process.argv.slice(2);
 
-        try {
-            log(`  📥 Baixando ${filePath}...`, 'blue');
-            await downloadFile(url, destPath);
-            log(`  ✅ ${filePath}`, 'green');
-        } catch (error) {
-            log(`  ❌ Erro ao baixar ${filePath}: ${error.message}`, 'red');
-            log(`  💡 Baixe manualmente de: ${url}`, 'yellow');
-        }
+  try {
+    switch (command) {
+      case "add":
+        if (!componentName) throw new Error("Nome do componente não fornecido");
+        await addComponent(componentName);
+        break;
+      case "list":
+        await listComponents();
+        break;
+      default:
+        showHelp();
     }
+  } catch (error) {
+    logger.error(`\n❌ ${error.message}`);
+    logger.warn("💡 Tente: npx @sergiolneves/lib-shared list");
+    process.exit(1);
+  }
 }
 
-// Main
-const args = process.argv.slice(2);
-const command = args[0];
-const componentName = args[1];
-
-if (command === 'add' && componentName) {
-    addComponent(componentName);
-} else {
-    log('\n🎨 Lib Shared - CLI', 'cyan');
-    log('\nUso:', 'yellow');
-    log('  npx lib-shared add <component>', 'blue');
-    log('  pnpm dlx lib-shared add <component>', 'blue');
-    log('\nExemplos:', 'yellow');
-    log('  npx lib-shared add button', 'blue');
-    log('  npx lib-shared add utils', 'blue');
-    log('\nComponentes disponíveis:', 'yellow');
-    Object.keys(registry).forEach(name => {
-        log(`  - ${name}`, 'blue');
-    });
-}
+main();
