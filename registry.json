@@ -17,6 +17,42 @@
                     "type": "registry:component"
                 }
             ]
+        },
+        {
+            "name": "container",
+            "type": "registry:ui",
+            "title": "Container",
+            "description": "A versatile container component for centering and controlling content layout with grid support.",
+            "files": [
+                {
+                    "path": "src/registry/components/display/container.tsx",
+                    "type": "registry:component"
+                }
+            ]
+        },
+        {
+            "name": "stack",
+            "type": "registry:ui",
+            "title": "Stack",
+            "description": "A flexible Stack component for organizing elements vertically or horizontally with alignment control.",
+            "files": [
+                {
+                    "path": "src/registry/components/display/stack.tsx",
+                    "type": "registry:component"
+                }
+            ]
+        },
+        {
+            "name": "use-responsive",
+            "type": "registry:hook",
+            "title": "useResponsive",
+            "description": "React hooks for creating responsive interfaces based on breakpoints.",
+            "files": [
+                {
+                    "path": "src/hooks/use-responsive.tsx",
+                    "type": "registry:hook"
+                }
+            ]
         }
     ]
 }

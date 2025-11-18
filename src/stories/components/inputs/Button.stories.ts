@@ -13,10 +13,23 @@ Um componente de botão versátil e acessível construído com React e Tailwind 
 
 ## Instalação
 
-Para utilizar este componente em seu projeto, execute o comando abaixo:
+### Método 1: Via CLI (Recomendado)
+
+Copia o código-fonte diretamente para seu projeto:
 
 \`\`\`bash
-npx shadcn@latest add https://sergiolneves.github.io/Lib-Shared/r/button.json
+npx @sergiolneves/lib-shared add button
+
+# Ou com pnpm
+pnpm dlx @sergiolneves/lib-shared add button
+\`\`\`
+
+### Método 2: Como pacote NPM
+
+\`\`\`bash
+npm install @sergiolneves/lib-shared
+# ou
+pnpm add @sergiolneves/lib-shared
 \`\`\`
 
 ## Uso Básico
