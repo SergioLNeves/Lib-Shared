@@ -1,0 +1,446 @@
+.navigationMenu {
+	--nav-bg: transparent;
+	--nav-text: var(--color-gray-400);
+	--nav-bg-hover: var(--color-gray-100);
+	--nav-text-hover: var(--color-black);
+	--nav-bg-active: var(--color-gray-200);
+	--nav-text-active: var(--color-black);
+	--nav-focus-ring: var(--color-blue-300);
+	--nav-muted: var(--color-gray-300); /* Texto secundário/Icones */
+	--link-active-bg: var(--color-gray-100);
+
+	--viewport-bg: var(--color-white);
+	--viewport-border: var(--color-gray-200);
+	--viewport-shadow:
+		0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+:global(.dark) .navigationMenu {
+	--nav-text: var(--color-gray-100);
+	--nav-bg-hover: var(--color-gray-400);
+	--nav-text-hover: var(--color-white);
+	--nav-bg-active: var(--color-gray-300);
+	--nav-text-active: var(--color-white);
+	--nav-focus-ring: var(--color-blue-200);
+	--nav-muted: var(--color-gray-200);
+	--link-active-bg: var(--color-gray-400);
+
+	--viewport-bg: var(--color-gray-400);
+	--viewport-border: var(--color-gray-300);
+	--viewport-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+.navigationMenu {
+	position: relative;
+	display: flex;
+	max-width: max-content;
+	flex: 1 1 0%;
+	align-items: center;
+	justify-content: center;
+}
+
+.navigationMenuList {
+	display: flex;
+	flex: 1 1 0%;
+	list-style: none;
+	align-items: center;
+	justify-content: center;
+	gap: 0.25rem;
+
+	margin: 0;
+	padding: 0;
+}
+
+.navigationMenuItem {
+	position: relative;
+}
+
+.navigationMenuTrigger {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: max-content;
+	height: 2.25rem;
+
+	padding: 0.5rem 1rem;
+	border-radius: 0.375rem;
+
+	font-size: 0.875rem;
+	font-weight: var(--font-weight-medium);
+
+	background-color: var(--nav-bg);
+	color: var(--nav-text);
+
+	transition:
+		color 0.2s,
+		background-color 0.2s,
+		box-shadow 0.2s;
+	outline: none;
+	border: none;
+	cursor: pointer;
+}
+
+.navigationMenuTrigger:hover,
+.navigationMenuTrigger:focus {
+	background-color: var(--nav-bg-hover);
+	color: var(--nav-text-hover);
+}
+
+.navigationMenuTrigger[data-state="open"] {
+	background-color: var(--nav-bg-active);
+	color: var(--nav-text-active);
+}
+
+.navigationMenuTrigger:focus-visible {
+	box-shadow:
+		0 0 0 2px var(--color-white),
+		0 0 0 4px var(--nav-focus-ring);
+	z-index: 10;
+}
+
+.navigationMenuTrigger:disabled {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+.navigationMenuContent {
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding: 0.5rem;
+	padding-right: 0.625rem;
+
+	animation-duration: 250ms;
+	animation-timing-function: ease;
+}
+
+@media (min-width: 768px) {
+	.navigationMenuContent {
+		position: absolute;
+		width: auto;
+	}
+}
+
+.navigationMenuContent[data-motion^="from-"] {
+	animation-name: enter;
+	animation-fill-mode: forwards;
+}
+
+.navigationMenuContent[data-motion^="to-"] {
+	animation-name: exit;
+	animation-fill-mode: forwards;
+}
+
+.navigationMenuContent[data-motion="from-end"] {
+	animation-name: enterFromRight;
+}
+
+.navigationMenuContent[data-motion="from-start"] {
+	animation-name: enterFromLeft;
+}
+
+.navigationMenuContent[data-motion="to-end"] {
+	animation-name: exitToRight;
+}
+
+.navigationMenuContent[data-motion="to-start"] {
+	animation-name: exitToLeft;
+}
+
+:global(.group)[data-viewport="false"] .navigationMenuContent {
+	background-color: var(--nav-bg);
+	color: var(--nav-text);
+
+	border: 1px solid var(--color-gray-200);
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+	border-radius: 0.375rem;
+
+	top: 100%;
+	margin-top: 0.375rem;
+	overflow: hidden;
+
+	transform-origin: top center;
+	animation: scaleIn 0.2s ease;
+}
+
+:global(.group)[data-viewport="false"]
+	.navigationMenuContent[data-state="closed"] {
+	animation: scaleOut 0.2s ease;
+}
+
+.navigationMenuContent a:focus {
+	outline: none;
+}
+
+@keyframes enterFromRight {
+	from {
+		opacity: 0;
+		transform: translateX(200px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes enterFromLeft {
+	from {
+		opacity: 0;
+		transform: translateX(-200px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes exitToRight {
+	from {
+		opacity: 1;
+		transform: translateX(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateX(200px);
+	}
+}
+
+@keyframes exitToLeft {
+	from {
+		opacity: 1;
+		transform: translateX(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateX(-200px);
+	}
+}
+
+@keyframes scaleIn {
+	from {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes scaleOut {
+	from {
+		opacity: 1;
+		transform: scale(1);
+	}
+	to {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+}
+
+.navigationMenuViewportWrapper {
+	position: absolute;
+	top: 100%;
+	left: 0;
+
+	isolation: isolate;
+	z-index: 50;
+	display: flex;
+	justify-content: center;
+
+	width: 100%;
+}
+
+.navigationMenuViewport {
+	position: relative;
+	margin-top: 0.375rem;
+
+	background-color: var(--viewport-bg);
+	color: var(--nav-text);
+	border: 1px solid var(--viewport-border);
+	border-radius: 0.375rem;
+	box-shadow: var(--viewport-shadow);
+
+	overflow: hidden;
+	transform-origin: top center; /* origin-top-center */
+
+	height: var(--radix-navigation-menu-viewport-height);
+	width: 100%; /* Mobile width */
+
+	transition:
+		width 300ms ease,
+		height 300ms ease;
+}
+
+@media (min-width: 768px) {
+	.navigationMenuViewport {
+		width: var(--radix-navigation-menu-viewport-width);
+	}
+}
+
+.navigationMenuViewport[data-state="open"] {
+	animation: scaleIn 200ms ease;
+}
+
+.navigationMenuViewport[data-state="closed"] {
+	animation: scaleOut 200ms ease;
+}
+
+@keyframes scaleIn {
+	from {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes scaleOut {
+	from {
+		opacity: 1;
+		transform: scale(1);
+	}
+	to {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+}
+
+/* ==========================================================================
+   LINK ITEM (Itens clicáveis dentro do menu)
+   ========================================================================== */
+
+.navigationMenuLink {
+	/* Layout (flex flex-col gap-1 p-2) */
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	padding: 0.5rem;
+
+	/* Aparência (rounded-sm) */
+	border-radius: 0.25rem;
+	text-decoration: none; /* Remove sublinhado padrão de links */
+
+	/* Tipografia (text-sm) */
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	color: var(--nav-text);
+
+	/* Transição */
+	transition: all 0.2s;
+	outline: none;
+
+	/* Para garantir que o usuário saiba que é clicável */
+	cursor: pointer;
+	user-select: none;
+}
+
+/* --- Estados de Interação --- */
+
+/* Hover e Focus padrão */
+.navigationMenuLink:hover,
+.navigationMenuLink:focus {
+	background-color: var(--nav-bg-hover);
+	color: var(--nav-text-hover);
+}
+
+/* Estado ATIVO (data-active="true") 
+   Geralmente usado para indicar a página atual */
+.navigationMenuLink[data-active="true"] {
+	background-color: var(--link-active-bg);
+	color: var(--nav-text-hover);
+}
+
+/* Focus Visible (Acessibilidade) */
+.navigationMenuLink:focus-visible {
+	box-shadow:
+		0 0 0 2px var(--nav-bg),
+		0 0 0 4px var(--nav-focus-ring);
+}
+
+/* --- Estilização automática de Ícones (SVG) dentro do link --- */
+/* Equivalente a [&_svg...]:text-muted-foreground */
+
+.navigationMenuLink svg {
+	color: var(--nav-muted);
+	width: 1rem; /* size-4 */
+	height: 1rem;
+	flex-shrink: 0; /* Garante que o ícone não esmague */
+}
+
+/* Quando passamos o mouse no link, o ícone também deve brilhar/mudar de cor? 
+   O Tailwind original sugere que sim (text-accent-foreground no hover). */
+.navigationMenuLink:hover svg,
+.navigationMenuLink:focus svg,
+.navigationMenuLink[data-active="true"] svg {
+	color: inherit; /* Herda a cor do texto principal (preto/branco) */
+}
+
+.navigationMenuIndicator {
+	/* Posicionamento (top-full z-[1]) */
+	top: 100%;
+	z-index: 1;
+
+	/* Layout (flex items-end justify-center) */
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+
+	/* Tamanho e Corte (h-1.5 overflow-hidden) */
+	height: 0.375rem; /* 6px */
+	overflow: hidden;
+
+	/* O Radix cuida da posição X (left/transform), 
+     nós cuidamos da animação de opacidade */
+}
+
+/* Animações de Aparecer/Sumir */
+.navigationMenuIndicator[data-state="visible"] {
+	animation: fadeIn 200ms ease;
+}
+
+.navigationMenuIndicator[data-state="hidden"] {
+	animation: fadeOut 200ms ease;
+}
+
+/* A Seta Interna (O quadrado girado) */
+.indicatorArrow {
+	position: relative;
+	top: 60%; /* Empurra para baixo para mostrar só a ponta */
+
+	width: 0.5rem; /* h-2 (8px) */
+	height: 0.5rem; /* w-2 (8px) */
+
+	/* A cor deve combinar com a borda do viewport para parecer conectado */
+	background-color: var(--viewport-border);
+
+	/* Formato de Diamante */
+	transform: rotate(45deg);
+
+	/* Arredondar levemente a ponta de cima (rounded-tl-sm) */
+	border-top-left-radius: 0.125rem;
+
+	/* Sombra suave */
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* KEYFRAMES DE FADE (Caso você ainda não tenha definido) */
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
