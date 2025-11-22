@@ -1,86 +1,41 @@
 {
-  "name": "@sergiolneves/lib-shared",
+  "name": "lib-shared",
   "private": false,
-  "version": "2.0.6",
-  "description": "Biblioteca de componentes React com Tailwind CSS",
   "type": "module",
-  "keywords": [
-    "react",
-    "components",
-    "tailwindcss",
-    "ui",
-    "library"
-  ],
-  "author": "SergioLNeves",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/SergioLNeves/Lib-Shared.git"
-  },
-  "bin": {
-    "lib-shared": "cli.js"
-  },
-  "main": "./dist/lib-shared.umd.js",
-  "module": "./dist/lib-shared.es.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/lib-shared.es.js",
-      "require": "./dist/lib-shared.umd.js"
-    },
-    "./styles.css": "./dist/style.css"
-  },
-  "files": [
-    "dist",
-    "cli.js",
-    "registry"
-  ],
   "scripts": {
-    "dev": "storybook dev -p 6006",
-    "build": "pnpm run build:lib",
-    "build:lib": "tsc --project tsconfig.lib.json && vite build --config vite.config.lib.ts",
-    "lint": "eslint .",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "prepublishOnly": "pnpm run build:lib",
-    "audit": "pnpm audit --audit-level=moderate",
-    "audit:fix": "pnpm audit --fix"
+    "dev": "vite --port 3000",
+    "build": "vite build && tsc",
+    "serve": "vite preview",
+    "test": "vitest run",
+    "format": "biome format",
+    "lint": "biome lint",
+    "check": "biome check"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-navigation-menu": "^1.2.14",
     "@radix-ui/react-slot": "^1.2.4",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^3.4.0"
+    "@tanstack/react-devtools": "^0.7.0",
+    "@tanstack/react-router": "^1.132.0",
+    "@tanstack/react-router-devtools": "^1.132.0",
+    "@tanstack/router-plugin": "^1.132.0",
+    "lucide-react": "^0.545.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.7",
-    "@chromatic-com/storybook": "^4.1.2",
-    "@eslint/js": "^9.39.1",
-    "@storybook/addon-a11y": "^10.0.7",
-    "@storybook/addon-docs": "^10.0.7",
-    "@storybook/addon-vitest": "^10.0.7",
-    "@storybook/react-vite": "^10.0.7",
-    "@tailwindcss/vite": "^4.1.17",
-    "@types/node": "^24.10.1",
-    "@types/react": "^19.2.5",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react-swc": "^4.2.2",
-    "@vitest/browser-playwright": "^4.0.9",
-    "@vitest/coverage-v8": "^4.0.9",
-    "eslint": "^9.39.1",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.24",
-    "eslint-plugin-storybook": "^10.0.7",
-    "globals": "^16.5.0",
-    "playwright": "^1.56.1",
-    "storybook": "^10.0.7",
-    "tailwindcss": "^4.1.17",
-    "typescript": "~5.9.3",
-    "typescript-eslint": "^8.46.4",
-    "vite": "^7.2.2",
-    "vitest": "^4.0.9"
+    "@biomejs/biome": "2.2.4",
+    "@tanstack/devtools-vite": "^0.3.11",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.2.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "jsdom": "^27.0.0",
+    "typescript": "^5.7.2",
+    "vite": "^7.1.7",
+    "vitest": "^3.0.5",
+    "web-vitals": "^5.1.0"
   }
 }

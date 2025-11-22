@@ -1,0 +1,36 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: var(--font-size-14);
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.table th {
+  background: var(--color-gray-100);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-400);
+}
+
+.table td {
+  color: var(--color-gray-300);
+  font-size: var(--font-size-14);
+}
+
+.table code {
+  background: var(--color-gray-100);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: var(--font-size-14);
+  color: var(--color-blue-300);
+}
+
+.table tbody tr:hover {
+  background: var(--color-gray-100);
+}
