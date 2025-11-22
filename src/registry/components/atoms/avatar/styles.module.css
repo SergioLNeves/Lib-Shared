@@ -1,0 +1,30 @@
+.avatar {
+	position: relative;
+	display: flex;
+	height: 2rem;
+	width: 2rem;
+	flex-shrink: 0;
+	overflow: hidden;
+	border-radius: 9999px;
+}
+
+.image {
+	aspect-ratio: 1 / 1;
+	height: 100%;
+	width: 100%;
+}
+
+.fallback {
+	--avatar-fallback-background: var(--color-gray-100);
+	background-color: var(--avatar-fallback-background);
+	display: flex;
+	height: 100%;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+	border-radius: 9999px;
+}
+
+:global(.dark) .fallback {
+	--avatar-fallback-background: var(--color-gray-800);
+}
