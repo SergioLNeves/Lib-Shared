@@ -2,6 +2,7 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import styles from "./button.module.css";
+import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(styles.base, {
   variants: {
@@ -9,7 +10,6 @@ const buttonVariants = cva(styles.base, {
       default: styles.primary,
       primary: styles.primary,
       secondary: styles.secondary,
-      tertiary: styles.tertiary,
       link: styles.link,
     },
   },
@@ -24,7 +24,7 @@ interface ButtonProps
   asChild?: boolean;
 }
 
-function Button({ className, variant, asChild }: ButtonProps) {
+function Button({ className, variant, asChild = false, ...props }: ButtonProps) {
   const Comp = asChild ? Slot : "button";
 
   return (
