@@ -1,4 +1,4 @@
-.navigationMenu {
+.menu {
 	--nav-bg: transparent;
 	--nav-text: var(--color-gray-400);
 	--nav-bg-hover: var(--color-gray-100);
@@ -18,7 +18,7 @@
 	--viewport-shadow: var(--shadow-sm);
 }
 
-:global(.dark) .navigationMenu {
+:global(.dark) .menu {
 	--nav-text: var(--color-gray-100);
 	--nav-bg-hover: var(--color-gray-400);
 	--nav-text-hover: var(--color-white);
@@ -33,7 +33,7 @@
 	--viewport-shadow: var(--shadow-md);
 }
 
-.navigationMenu {
+.menu {
 	position: relative;
 	display: flex;
 	max-width: max-content;
@@ -42,7 +42,7 @@
 	justify-content: center;
 }
 
-.navigationMenuList {
+.list {
 	display: flex;
 	flex: 1 1 0%;
 	list-style: none;
@@ -54,11 +54,11 @@
 	padding: 0;
 }
 
-.navigationMenuItem {
+.item {
 	position: relative;
 }
 
-.navigationMenuTrigger {
+.trigger {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -83,30 +83,30 @@
 	cursor: pointer;
 }
 
-.navigationMenuTrigger:hover,
-.navigationMenuTrigger:focus {
+.trigger:hover,
+.trigger:focus {
 	background-color: var(--nav-bg-hover);
 	color: var(--nav-text-hover);
 }
 
-.navigationMenuTrigger[data-state="open"] {
+.trigger[data-state="open"] {
 	background-color: var(--nav-bg-active);
 	color: var(--nav-text-active);
 }
 
-.navigationMenuTrigger:focus-visible {
+.trigger:focus-visible {
 	box-shadow:
 		0 0 0 2px var(--color-white),
 		0 0 0 4px var(--nav-focus-ring);
 	z-index: 10;
 }
 
-.navigationMenuTrigger:disabled {
+.trigger:disabled {
 	pointer-events: none;
 	opacity: 0.5;
 }
 
-.navigationMenuContent {
+.content {
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -118,39 +118,39 @@
 }
 
 @media (min-width: 768px) {
-	.navigationMenuContent {
+	.content {
 		position: absolute;
 		width: auto;
 	}
 }
 
-.navigationMenuContent[data-motion^="from-"] {
+.content[data-motion^="from-"] {
 	animation-name: enter;
 	animation-fill-mode: forwards;
 }
 
-.navigationMenuContent[data-motion^="to-"] {
+.content[data-motion^="to-"] {
 	animation-name: exit;
 	animation-fill-mode: forwards;
 }
 
-.navigationMenuContent[data-motion="from-end"] {
+.content[data-motion="from-end"] {
 	animation-name: enterFromRight;
 }
 
-.navigationMenuContent[data-motion="from-start"] {
+.content[data-motion="from-start"] {
 	animation-name: enterFromLeft;
 }
 
-.navigationMenuContent[data-motion="to-end"] {
+.content[data-motion="to-end"] {
 	animation-name: exitToRight;
 }
 
-.navigationMenuContent[data-motion="to-start"] {
+.content[data-motion="to-start"] {
 	animation-name: exitToLeft;
 }
 
-:global(.group)[data-viewport="false"] .navigationMenuContent {
+:global(.group)[data-viewport="false"] .content {
 	background-color: var(--nav-bg);
 	color: var(--nav-text);
 
@@ -166,12 +166,11 @@
 	animation: scaleIn 0.2s ease;
 }
 
-:global(.group)[data-viewport="false"]
-	.navigationMenuContent[data-state="closed"] {
+:global(.group)[data-viewport="false"] .content[data-state="closed"] {
 	animation: scaleOut 0.2s ease;
 }
 
-.navigationMenuContent a:focus {
+.content a:focus {
 	outline: none;
 }
 
@@ -241,7 +240,7 @@
 	}
 }
 
-.navigationMenuViewportWrapper {
+.viewportWrapper {
 	position: absolute;
 	top: 100%;
 	left: 0;
@@ -254,7 +253,7 @@
 	width: 100%;
 }
 
-.navigationMenuViewport {
+.viewport {
 	position: relative;
 	margin-top: 0.375rem;
 
@@ -276,16 +275,16 @@
 }
 
 @media (min-width: 768px) {
-	.navigationMenuViewport {
+	.viewport {
 		width: var(--radix-navigation-menu-viewport-width);
 	}
 }
 
-.navigationMenuViewport[data-state="open"] {
+.viewport[data-state="open"] {
 	animation: scaleIn 200ms ease;
 }
 
-.navigationMenuViewport[data-state="closed"] {
+.viewport[data-state="closed"] {
 	animation: scaleOut 200ms ease;
 }
 
@@ -311,7 +310,7 @@
 	}
 }
 
-.navigationMenuLink {
+.link {
 	display: flex;
 	flex-direction: column;
 	gap: 0.25rem;
@@ -330,37 +329,37 @@
 	user-select: none;
 }
 
-.navigationMenuLink:hover,
-.navigationMenuLink:focus {
+.link:hover,
+.link:focus {
 	background-color: var(--nav-bg-hover);
 	color: var(--nav-text-hover);
 }
 
-.navigationMenuLink[data-active="true"] {
+.link[data-active="true"] {
 	background-color: var(--link-active-bg);
 	color: var(--nav-text-hover);
 }
 
-.navigationMenuLink:focus-visible {
+.link:focus-visible {
 	box-shadow:
 		0 0 0 2px var(--nav-bg),
 		0 0 0 4px var(--nav-focus-ring);
 }
 
-.navigationMenuLink svg {
+.link svg {
 	color: var(--nav-muted);
 	width: 1rem;
 	height: 1rem;
 	flex-shrink: 0;
 }
 
-.navigationMenuLink:hover svg,
-.navigationMenuLink:focus svg,
-.navigationMenuLink[data-active="true"] svg {
+.link:hover svg,
+.link:focus svg,
+.link[data-active="true"] svg {
 	color: inherit;
 }
 
-.navigationMenuIndicator {
+.indicator {
 	top: 100%;
 	z-index: 1;
 
@@ -372,15 +371,15 @@
 	overflow: hidden;
 }
 
-.navigationMenuIndicator[data-state="visible"] {
+.indicator[data-state="visible"] {
 	animation: fadeIn 200ms ease;
 }
 
-.navigationMenuIndicator[data-state="hidden"] {
+.indicator[data-state="hidden"] {
 	animation: fadeOut 200ms ease;
 }
 
-.navigationMenuIndicatorArrow {
+.indicatorArrow {
 	position: relative;
 	top: 60%;
 

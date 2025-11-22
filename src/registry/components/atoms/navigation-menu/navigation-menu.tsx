@@ -20,7 +20,7 @@ function NavigationMenu({
 		<NavigationMenuPrimitive.Root
 			data-slot="navigation-menu"
 			data-viewport={viewport}
-			className={cn(styles.navigationMenu, className)}
+			className={cn(styles.menu, className)}
 			{...props}
 		>
 			{children}
@@ -36,7 +36,7 @@ function NavigationMenuList({ className, ...props }: NavigationMenuListProps) {
 	return (
 		<NavigationMenuPrimitive.List
 			data-slot="navigation-menu-list"
-			className={cn(styles.navigationMenuList, className)}
+			className={cn(styles.list, className)}
 			{...props}
 		/>
 	);
@@ -49,7 +49,7 @@ function NavigationMenuItem({ className, ...props }: NavigationMenuItemProps) {
 	return (
 		<NavigationMenuPrimitive.Item
 			data-slot="navigation-menu-item"
-			className={cn(styles.navigationMenuItem, className)}
+			className={cn(styles.item, className)}
 			{...props}
 		/>
 	);
@@ -66,7 +66,7 @@ function NavigationMenuTrigger({
 	return (
 		<NavigationMenuPrimitive.Trigger
 			data-slot="navigation-menu-trigger"
-			className={cn(styles.navigationMenuTrigger, className)}
+			className={cn(styles.trigger, className)}
 			{...props}
 		>
 			{children}
@@ -84,7 +84,7 @@ function NavigationMenuContent({
 	return (
 		<NavigationMenuPrimitive.Content
 			data-slot="navigation-menu-content"
-			className={cn(styles.navigationMenuContent, className)}
+			className={cn(styles.content, className)}
 			{...props}
 		/>
 	);
@@ -98,10 +98,10 @@ function NavigationMenuViewport({
 	...props
 }: NavigationMenuViewportProps) {
 	return (
-		<div className={cn(styles.navigationMenuViewportWrapper, className)}>
+		<div className={cn(styles.viewportWrapper, className)}>
 			<NavigationMenuPrimitive.Viewport
 				data-slot="navigation-menu-viewport"
-				className={cn(styles.navigationMenuViewport, className)}
+				className={cn(styles.viewport, className)}
 				{...props}
 			/>
 		</div>
@@ -115,7 +115,7 @@ function NavigationMenuLink({ className, ...props }: NavigationMenuLinkProps) {
 	return (
 		<NavigationMenuPrimitive.Link
 			data-slot="navigation-menu-link"
-			className={cn(styles.navigationMenuLink, className)}
+			className={cn(styles.link, className)}
 			{...props}
 		/>
 	);
@@ -131,10 +131,10 @@ function NavigationMenuIndicator({
 	return (
 		<NavigationMenuPrimitive.Indicator
 			data-slot="navigation-menu-indicator"
-			className={cn(styles.navigationMenuIndicator, className)}
+			className={cn(styles.indicator, className)}
 			{...props}
 		>
-			<div className={styles.navigationMenuIndicatorArrow} />
+			<div className={styles.indicatorArrow} />
 		</NavigationMenuPrimitive.Indicator>
 	);
 }
