@@ -6,13 +6,16 @@
 	--nav-bg-active: var(--color-gray-200);
 	--nav-text-active: var(--color-black);
 	--nav-focus-ring: var(--color-blue-300);
-	--nav-muted: var(--color-gray-300); /* Texto secundário/Icones */
+	--nav-muted: var(--color-gray-300);
 	--link-active-bg: var(--color-gray-100);
 
 	--viewport-bg: var(--color-white);
 	--viewport-border: var(--color-gray-200);
-	--viewport-shadow:
+	--shadow-sm:
 		0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+	--shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+
+	--viewport-shadow: var(--shadow-sm);
 }
 
 :global(.dark) .navigationMenu {
@@ -27,7 +30,7 @@
 
 	--viewport-bg: var(--color-gray-400);
 	--viewport-border: var(--color-gray-300);
-	--viewport-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+	--viewport-shadow: var(--shadow-md);
 }
 
 .navigationMenu {
@@ -152,7 +155,7 @@
 	color: var(--nav-text);
 
 	border: 1px solid var(--color-gray-200);
-	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+	box-shadow: var(--shadow-sm);
 	border-radius: 0.375rem;
 
 	top: 100%;
@@ -262,10 +265,10 @@
 	box-shadow: var(--viewport-shadow);
 
 	overflow: hidden;
-	transform-origin: top center; /* origin-top-center */
+	transform-origin: top center;
 
 	height: var(--radix-navigation-menu-viewport-height);
-	width: 100%; /* Mobile width */
+	width: 100%;
 
 	transition:
 		width 300ms ease,
@@ -308,95 +311,67 @@
 	}
 }
 
-/* ==========================================================================
-   LINK ITEM (Itens clicáveis dentro do menu)
-   ========================================================================== */
-
 .navigationMenuLink {
-	/* Layout (flex flex-col gap-1 p-2) */
 	display: flex;
 	flex-direction: column;
 	gap: 0.25rem;
 	padding: 0.5rem;
 
-	/* Aparência (rounded-sm) */
 	border-radius: 0.25rem;
-	text-decoration: none; /* Remove sublinhado padrão de links */
+	text-decoration: none;
 
-	/* Tipografia (text-sm) */
 	font-size: 0.875rem;
 	line-height: 1.25rem;
 	color: var(--nav-text);
-
-	/* Transição */
 	transition: all 0.2s;
 	outline: none;
 
-	/* Para garantir que o usuário saiba que é clicável */
 	cursor: pointer;
 	user-select: none;
 }
 
-/* --- Estados de Interação --- */
-
-/* Hover e Focus padrão */
 .navigationMenuLink:hover,
 .navigationMenuLink:focus {
 	background-color: var(--nav-bg-hover);
 	color: var(--nav-text-hover);
 }
 
-/* Estado ATIVO (data-active="true") 
-   Geralmente usado para indicar a página atual */
 .navigationMenuLink[data-active="true"] {
 	background-color: var(--link-active-bg);
 	color: var(--nav-text-hover);
 }
 
-/* Focus Visible (Acessibilidade) */
 .navigationMenuLink:focus-visible {
 	box-shadow:
 		0 0 0 2px var(--nav-bg),
 		0 0 0 4px var(--nav-focus-ring);
 }
 
-/* --- Estilização automática de Ícones (SVG) dentro do link --- */
-/* Equivalente a [&_svg...]:text-muted-foreground */
-
 .navigationMenuLink svg {
 	color: var(--nav-muted);
-	width: 1rem; /* size-4 */
+	width: 1rem;
 	height: 1rem;
-	flex-shrink: 0; /* Garante que o ícone não esmague */
+	flex-shrink: 0;
 }
 
-/* Quando passamos o mouse no link, o ícone também deve brilhar/mudar de cor? 
-   O Tailwind original sugere que sim (text-accent-foreground no hover). */
 .navigationMenuLink:hover svg,
 .navigationMenuLink:focus svg,
 .navigationMenuLink[data-active="true"] svg {
-	color: inherit; /* Herda a cor do texto principal (preto/branco) */
+	color: inherit;
 }
 
 .navigationMenuIndicator {
-	/* Posicionamento (top-full z-[1]) */
 	top: 100%;
 	z-index: 1;
 
-	/* Layout (flex items-end justify-center) */
 	display: flex;
 	align-items: flex-end;
 	justify-content: center;
 
-	/* Tamanho e Corte (h-1.5 overflow-hidden) */
-	height: 0.375rem; /* 6px */
+	height: 0.375rem;
 	overflow: hidden;
-
-	/* O Radix cuida da posição X (left/transform), 
-     nós cuidamos da animação de opacidade */
 }
 
-/* Animações de Aparecer/Sumir */
 .navigationMenuIndicator[data-state="visible"] {
 	animation: fadeIn 200ms ease;
 }
@@ -405,28 +380,22 @@
 	animation: fadeOut 200ms ease;
 }
 
-/* A Seta Interna (O quadrado girado) */
-.indicatorArrow {
+.navigationMenuIndicatorArrow {
 	position: relative;
-	top: 60%; /* Empurra para baixo para mostrar só a ponta */
+	top: 60%;
 
-	width: 0.5rem; /* h-2 (8px) */
-	height: 0.5rem; /* w-2 (8px) */
+	width: 0.5rem;
+	height: 0.5rem;
 
-	/* A cor deve combinar com a borda do viewport para parecer conectado */
 	background-color: var(--viewport-border);
 
-	/* Formato de Diamante */
 	transform: rotate(45deg);
 
-	/* Arredondar levemente a ponta de cima (rounded-tl-sm) */
 	border-top-left-radius: 0.125rem;
 
-	/* Sombra suave */
-	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+	box-shadow: var(--shadow-sm);
 }
 
-/* KEYFRAMES DE FADE (Caso você ainda não tenha definido) */
 @keyframes fadeIn {
 	from {
 		opacity: 0;

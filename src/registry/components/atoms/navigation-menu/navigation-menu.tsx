@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 import styles from "./navigation-menu.module.css";
 
-interface NaigationMenuProps
+interface NavigationMenuProps
 	extends React.ComponentProps<typeof NavigationMenuPrimitive.Root> {
 	viewport?: boolean;
 }
@@ -15,7 +15,7 @@ function NavigationMenu({
 	children,
 	viewport = true,
 	...props
-}: NaigationMenuProps) {
+}: NavigationMenuProps) {
 	return (
 		<NavigationMenuPrimitive.Root
 			data-slot="navigation-menu"
