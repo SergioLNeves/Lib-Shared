@@ -1,0 +1,35 @@
+/* Avatar Theme Variables */
+:root {
+    /* Light Theme - Avatar Colors */
+    --avatar-bg-default: var(--color-gray-100);
+    --avatar-bg-primary: var(--color-blue-100);
+    --avatar-bg-success: var(--color-green-100);
+    --avatar-bg-danger: var(--color-red-100);
+    --avatar-bg-warning: var(--color-orange-100);
+    --avatar-text: var(--color-white);
+    --avatar-border: transparent;
+}
+
+.dark {
+    /* Dark Theme - Avatar Colors */
+    --avatar-bg-default: var(--color-gray-400);
+    --avatar-bg-primary: var(--color-blue-200);
+    --avatar-bg-success: var(--color-green-200);
+    --avatar-bg-danger: var(--color-red-200);
+    --avatar-bg-warning: var(--color-orange-200);
+    --avatar-text: var(--color-white);
+    --avatar-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Fallback for prefers-color-scheme when .dark class is not used */
+@media (prefers-color-scheme: dark) {
+    :root:not(.light) {
+        --avatar-bg-default: var(--color-gray-400);
+        --avatar-bg-primary: var(--color-blue-200);
+        --avatar-bg-success: var(--color-green-200);
+        --avatar-bg-danger: var(--color-red-200);
+        --avatar-bg-warning: var(--color-orange-200);
+        --avatar-text: var(--color-white);
+        --avatar-border: rgba(255, 255, 255, 0.1);
+    }
+}

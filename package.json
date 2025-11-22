@@ -1,7 +1,7 @@
 {
   "name": "@sergiolneves/lib-shared",
   "private": false,
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Biblioteca de componentes React com Tailwind CSS",
   "type": "module",
   "keywords": [
@@ -48,6 +48,8 @@
     "audit:fix": "pnpm audit --fix"
   },
   "dependencies": {
+    "@radix-ui/react-avatar": "^1.1.11",
+    "@radix-ui/react-slot": "^1.2.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.4.0"

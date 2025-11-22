@@ -1,58 +1,66 @@
 {
-    "$schema": "https://ui.shadcn.com/schema/registry.json",
-    "name": "components",
-    "homepage": "https://sergiolneves.github.io/Lib-Shared",
-    "registries": {
-        "lib-shared": "https://sergiolneves.github.io/Lib-Shared/r"
-    },
-    "items": [
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "components",
+  "homepage": "https://sergiolneves.github.io/Lib-Shared",
+  "registries": {
+    "lib-shared": "https://sergiolneves.github.io/Lib-Shared/r"
+  },
+  "items": [
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "A button component with CSS modules and multiple variants (primary, secondary, tertiary, link).",
+      "files": [
         {
-            "name": "button",
-            "type": "registry:ui",
-            "title": "Button",
-            "description": "A button component that can be used to trigger actions or navigate to different pages.",
-            "files": [
-                {
-                    "path": "src/registry/components/inputs/button.tsx",
-                    "type": "registry:component"
-                }
-            ]
+          "path": "src/registry/lib-ui/components/atoms/button/button.tsx",
+          "type": "registry:component"
         },
         {
-            "name": "container",
-            "type": "registry:ui",
-            "title": "Container",
-            "description": "A versatile container component for centering and controlling content layout with grid support.",
-            "files": [
-                {
-                    "path": "src/registry/components/display/container.tsx",
-                    "type": "registry:component"
-                }
-            ]
+          "path": "src/registry/lib-ui/components/atoms/button/button.module.css",
+          "type": "registry:style"
         },
         {
-            "name": "stack",
-            "type": "registry:ui",
-            "title": "Stack",
-            "description": "A flexible Stack component for organizing elements vertically or horizontally with alignment control.",
-            "files": [
-                {
-                    "path": "src/registry/components/display/stack.tsx",
-                    "type": "registry:component"
-                }
-            ]
-        },
-        {
-            "name": "use-responsive",
-            "type": "registry:hook",
-            "title": "useResponsive",
-            "description": "React hooks for creating responsive interfaces based on breakpoints.",
-            "files": [
-                {
-                    "path": "src/hooks/use-responsive.tsx",
-                    "type": "registry:hook"
-                }
-            ]
+          "path": "src/registry/lib-ui/components/atoms/button/variants.css",
+          "type": "registry:style"
         }
-    ]
+      ]
+    },
+    {
+      "name": "container",
+      "type": "registry:ui",
+      "title": "Container",
+      "description": "A versatile container component for centering and controlling content layout with grid support.",
+      "files": [
+        {
+          "path": "src/registry/components/display/container.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "stack",
+      "type": "registry:ui",
+      "title": "Stack",
+      "description": "A flexible Stack component for organizing elements vertically or horizontally with alignment control.",
+      "files": [
+        {
+          "path": "src/registry/components/display/stack.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "use-responsive",
+      "type": "registry:hook",
+      "title": "useResponsive",
+      "description": "React hooks for creating responsive interfaces based on breakpoints.",
+      "files": [
+        {
+          "path": "src/hooks/use-responsive.tsx",
+          "type": "registry:hook"
+        }
+      ]
+    }
+  ]
 }
