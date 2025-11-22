@@ -3,12 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-// Importando o CSS Module (onde estão suas classes .base, .primary, etc.)
 import styles from "./button.module.css";
-
-// Se as variáveis CSS (--button-primary...) estiverem aqui, importe.
-// Se estiverem no global.css, pode remover essa linha.
-import "./button-variants.css";
 
 const buttonVariants = cva(styles.base, {
 	variants: {
