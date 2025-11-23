@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
 const BREAKPOINTS = {
-  sm: 640,
-  md: 768,
-  lg: 1024,
-  xl: 1280,
-  "2xl": 1536,
+	sm: 640,
+	md: 768,
+	lg: 1024,
+	xl: 1280,
+	"2xl": 1536,
 } as const;
 
 type Breakpoint = "sm" | "md" | "lg" | "xl" | "2xl" | "base";
@@ -18,32 +18,32 @@ type Breakpoint = "sm" | "md" | "lg" | "xl" | "2xl" | "base";
  * // breakpoint = "md" on tablet, "lg" on desktop, etc.
  */
 export function useBreakpoint(): Breakpoint {
-  const [breakpoint, setBreakpoint] = useState<Breakpoint>("base");
+	const [breakpoint, setBreakpoint] = useState<Breakpoint>("base");
 
-  useEffect(() => {
-    const getBreakpoint = (): Breakpoint => {
-      const width = window.innerWidth;
+	useEffect(() => {
+		const getBreakpoint = (): Breakpoint => {
+			const width = window.innerWidth;
 
-      if (width >= BREAKPOINTS["2xl"]) return "2xl";
-      if (width >= BREAKPOINTS.xl) return "xl";
-      if (width >= BREAKPOINTS.lg) return "lg";
-      if (width >= BREAKPOINTS.md) return "md";
-      if (width >= BREAKPOINTS.sm) return "sm";
-      return "base";
-    };
+			if (width >= BREAKPOINTS["2xl"]) return "2xl";
+			if (width >= BREAKPOINTS.xl) return "xl";
+			if (width >= BREAKPOINTS.lg) return "lg";
+			if (width >= BREAKPOINTS.md) return "md";
+			if (width >= BREAKPOINTS.sm) return "sm";
+			return "base";
+		};
 
-    const handleResize = () => {
-      setBreakpoint(getBreakpoint());
-    };
+		const handleResize = () => {
+			setBreakpoint(getBreakpoint());
+		};
 
-    // Set initial breakpoint
-    handleResize();
+		// Set initial breakpoint
+		handleResize();
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
 
-  return breakpoint;
+	return breakpoint;
 }
 
 type ResponsiveValue<T> = { [K in Breakpoint]?: T };
@@ -60,18 +60,18 @@ type ResponsiveValue<T> = { [K in Breakpoint]?: T };
  * // isVisible = false on mobile, true on desktop
  */
 export function useResponsive<T>(values: ResponsiveValue<T>): T | undefined {
-  const breakpoint = useBreakpoint();
+	const breakpoint = useBreakpoint();
 
-  const breakpointOrder: Breakpoint[] = ["base", "sm", "md", "lg", "xl", "2xl"];
-  const currentIndex = breakpointOrder.indexOf(breakpoint);
+	const breakpointOrder: Breakpoint[] = ["base", "sm", "md", "lg", "xl", "2xl"];
+	const currentIndex = breakpointOrder.indexOf(breakpoint);
 
-  // Find the closest defined value at or below current breakpoint
-  for (let i = currentIndex; i >= 0; i--) {
-    const bp = breakpointOrder[i];
-    if (values[bp] !== undefined) {
-      return values[bp];
-    }
-  }
+	// Find the closest defined value at or below current breakpoint
+	for (let i = currentIndex; i >= 0; i--) {
+		const bp = breakpointOrder[i];
+		if (values[bp] !== undefined) {
+			return values[bp];
+		}
+	}
 
-  return values.base;
+	return values.base;
 }

@@ -1,190 +1,237 @@
-# Lib Shared 🎨
+# Lib Shared
 
-Biblioteca de componentes React com **Tailwind CSS v4**, **TypeScript** e **Storybook**. Componentes prontos para copiar e colar no seu projeto.
+Biblioteca de componentes React modulares, acessíveis e customizáveis. Componentes prontos para uso com CSS Modules, TypeScript e documentação interativa.
 
----
+## Introdução
 
-## 🚀 Instalação Rápida
+Lib Shared é uma coleção de componentes React reutilizáveis construídos com foco em:
 
-Dois métodos para adicionar componentes:
+- **Acessibilidade**: Componentes seguem as melhores práticas WCAG
+- **Customização**: CSS Modules com variáveis CSS para fácil personalização
+- **TypeScript**: Totalmente tipado para melhor experiência de desenvolvimento
+- **Documentação**: Exemplos interativos com visualização ao vivo
 
-### Método 1: Via CLI (Estilo shadcn/ui - Recomendado)
+## Instalação
 
-Copia o código-fonte diretamente para seu projeto:
+### Via CLI (Recomendado)
+
+Copie componentes diretamente para seu projeto:
 
 ```bash
-# Adicionar componente Button
 npx @sergiolneves/lib-shared add button
+```
 
-# Ou com pnpm
+Ou com pnpm:
+
+```bash
 pnpm dlx @sergiolneves/lib-shared add button
+```
 
-# Listar componentes disponíveis
+Liste componentes disponíveis:
+
+```bash
 npx @sergiolneves/lib-shared list
 ```
 
-**O que acontece:**
-- ✅ Cria `src/components/ui/button.tsx` no seu projeto
-- ✅ Cria `src/lib/utils.ts` (utilitário cn)
-- ✅ Instala dependências necessárias automaticamente
+O CLI irá:
+- Criar o componente em `src/registry/components/atoms/`
+- Instalar dependências necessárias
+- Configurar utilitários (`cn`, etc)
 
-### Método 2: Instalação como pacote NPM
+### Como Pacote NPM
 
-Instala a biblioteca completa:
+Instale a biblioteca completa:
 
 ```bash
 npm install @sergiolneves/lib-shared
-# ou
-pnpm add @sergiolneves/lib-shared
-# ou
-yarn add @sergiolneves/lib-shared
 ```
 
----
-
-## 📖 Uso
-
-### Com CLI (código no seu projeto)
-
-```tsx
-import { Button } from '@/components/ui/button'
-
-function App() {
-  return <Button variant="default">Clique aqui</Button>
-}
-```
-
-### Como pacote NPM
-
-```tsx
-import { Button } from '@sergiolneves/lib-shared'
-
-function App() {
-  return <Button variant="default">Clique aqui</Button>
-}
-```
-
----
-
-## ⚙️ Configuração Tailwind CSS v4
-
-A biblioteca usa Tailwind CSS v4. Configure no seu projeto:
-
-**1. Instalar Tailwind:**
+Ou:
 
 ```bash
-pnpm add -D tailwindcss @tailwindcss/vite
+pnpm add @sergiolneves/lib-shared
 ```
 
-**2. Configurar `vite.config.ts`:**
+## Uso Básico
+
+### Importar Componente
+
+```tsx
+import { Button } from "@sergiolneves/lib-shared";
+
+function App() {
+  return (
+    <Button variant="primary" onClick={() => alert("Clicou!")}>
+      Clique aqui
+    </Button>
+  );
+}
+```
+
+### Com CLI (código local)
+
+```tsx
+import { Button } from "@/registry/components/atoms/button";
+
+function App() {
+  return <Button variant="primary">Clique aqui</Button>;
+}
+```
+
+## Configuração
+
+### CSS Modules
+
+Os componentes usam CSS Modules. Certifique-se de que seu bundler suporta:
+
+**Vite** (configuração padrão)
 
 ```ts
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
+// vite.config.ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react()],
   resolve: {
     alias: {
-      "@": "/src", // Importante para os imports
+      "@": "/src",
     },
   },
-})
+});
 ```
 
-**3. Adicionar ao `src/index.css`:**
+### Design Tokens
+
+Customize as variáveis CSS no seu projeto:
 
 ```css
-@import "tailwindcss";
+:root {
+  --color-primary-100: #99c3ff;
+  --color-primary-200: #5c9fff;
+  --color-primary-300: #1f7cff;
+  
+  --font-size-14: 0.875rem;
+  --font-size-16: 1rem;
+  --font-size-18: 1.125rem;
+  
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+}
 ```
 
----
+## Desenvolvimento
 
-## 🎨 Componentes
-
-### Button
-
-Componente de botão versátil com múltiplas variantes e tamanhos.
-
-**Variantes:** `default` | `destructive` | `outline` | `secondary` | `ghost` | `link`  
-**Tamanhos:** `sm` | `default` | `lg` | `icon` | `icon-sm` | `icon-lg`
-
-```tsx
-import { Button } from '@sergiolneves/lib-shared'
-
-// Variantes
-<Button variant="default">Padrão</Button>
-<Button variant="destructive">Deletar</Button>
-<Button variant="outline">Cancelar</Button>
-
-// Tamanhos
-<Button size="sm">Pequeno</Button>
-<Button size="lg">Grande</Button>
-
-// Com ícones
-<Button>
-  <svg className="size-4">...</svg>
-  Adicionar
-</Button>
-
-// Desabilitado
-<Button disabled>Desabilitado</Button>
-```
-
-### cn (utilitário)
-
-Combina classes CSS com Tailwind merge:
-
-```tsx
-import { cn } from '@sergiolneves/lib-shared'
-
-const className = cn(
-  'base-class',
-  condition && 'conditional-class'
-)
-```
-
----
-
-## 🛠️ Desenvolvimento
+### Scripts Disponíveis
 
 ```bash
-pnpm run dev              # Dev server
-pnpm run storybook        # Storybook (porta 6006)
-pnpm run build:lib        # Build da biblioteca
-pnpm run lint             # ESLint
+pnpm dev              # Inicia servidor de desenvolvimento
+pnpm build            # Build para produção
+pnpm lint             # Executa linter
+pnpm test             # Executa testes
 ```
 
----
-
-## 📦 Estrutura
+### Estrutura do Projeto
 
 ```
 lib-shared/
 ├── src/
-│   ├── index.ts                  # Exportações
-│   ├── lib/
-│   │   └── utils.ts              # Utilitários (cn)
-│   └── stories/
-│       └── button/
-│           ├── Button.tsx        # Componente
-│           └── Button.stories.ts # Storybook
-├── dist/                         # Build gerado
-├── cli.js                        # CLI para copiar componentes
+│   ├── registry/
+│   │   └── components/
+│   │       └── atoms/
+│   │           ├── button/
+│   │           │   ├── index.tsx
+│   │           │   ├── styles.module.css
+│   │           │   └── button.md
+│   │           ├── badge/
+│   │           └── card/
+│   ├── docs/
+│   │   ├── layout/
+│   │   ├── sidebar/
+│   │   └── markdown-renderer/
+│   └── lib/
+│       ├── utils.ts
+│       └── md-parser.ts
 └── package.json
 ```
 
----
+### Adicionar Novo Componente
 
-## 📄 Licença
+1. Crie a estrutura de pastas:
+
+```bash
+mkdir -p src/registry/components/atoms/seu-componente
+```
+
+2. Adicione os arquivos:
+   - `index.tsx` - Componente React
+   - `styles.module.css` - Estilos
+   - `seu-componente.md` - Documentação
+
+3. O componente aparecerá automaticamente na sidebar!
+
+## Padrões de Código
+
+### Componente Base
+
+```tsx
+import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
+import { cn } from "@/lib/utils";
+import styles from "./styles.module.css";
+
+const componentVariants = cva(styles.base, {
+  variants: {
+    variant: {
+      default: styles.default,
+      primary: styles.primary,
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+interface ComponentProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof componentVariants> {}
+
+const Component = React.forwardRef<HTMLDivElement, ComponentProps>(
+  ({ className, variant, ...props }, ref) => {
+    return (
+      <div
+        className={cn(componentVariants({ variant, className }))}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
+);
+
+Component.displayName = "Component";
+
+export { Component, componentVariants };
+export type { ComponentProps };
+```
+
+## Contribuindo
+
+Contribuições são bem-vindas! Por favor:
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/NovaFeature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
+4. Push para a branch (`git push origin feature/NovaFeature`)
+5. Abra um Pull Request
+
+## Licença
 
 MIT © [SergioLNeves](https://github.com/SergioLNeves)
 
----
+## Links
 
-## 🔗 Links
-
-- [GitHub](https://github.com/SergioLNeves/Lib-Shared)
-- [Documentação](https://sergiolneves.github.io/Lib-Shared)
-- [Issues](https://github.com/SergioLNeves/Lib-Share/issues)
+- [Documentação Online](https://sergiolneves.github.io/Lib-Shared)
+- [GitHub Repository](https://github.com/SergioLNeves/Lib-Shared)
+- [Issues](https://github.com/SergioLNeves/Lib-Shared/issues)
+- [NPM Package](https://www.npmjs.com/package/@sergiolneves/lib-shared)

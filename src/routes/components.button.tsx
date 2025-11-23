@@ -113,7 +113,7 @@ function ButtonDocs() {
 </Button>`}
 					>
 						<Button variant="primary" asChild>
-							<a href="https://github.com">Ir para GitHub</a>
+							<a href="https://github.com/SergioLNeves/Lib-Shared">Ir para GitHub</a>
 						</Button>
 					</ExampleSection>
 				</section>

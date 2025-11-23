@@ -1,66 +1,163 @@
 .content {
-  flex: 1;
-  overflow-y: auto;
-  background: var(--color-white);
+	--content-bg: var(--color-white);
+	flex: 1;
+	overflow-y: auto;
+	background: var(--content-bg);
+}
+
+:global(.dark) .content {
+	--content-bg: #121212;
 }
 
 .inner {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 3rem 2rem;
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 3rem 2rem;
 }
 
 .inner h1 {
-  margin: 0 0 1rem 0;
-  font-size: var(--font-size-48);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-gray-400);
+	--heading-color: var(--color-gray-400);
+	margin: 0 0 1rem 0;
+	font-size: var(--font-size-48);
+	font-weight: var(--font-weight-bold);
+	color: var(--heading-color);
+}
+
+:global(.dark) .inner h1 {
+	--heading-color: var(--color-white);
 }
 
 .inner h2 {
-  margin: 2rem 0 1rem 0;
-  font-size: var(--font-size-32);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-gray-400);
-  border-bottom: 1px solid var(--color-gray-200);
-  padding-bottom: 0.5rem;
+	--heading-color: var(--color-gray-400);
+	--heading-border: var(--color-gray-200);
+	margin: 2rem 0 1rem 0;
+	font-size: var(--font-size-32);
+	font-weight: var(--font-weight-semibold);
+	color: var(--heading-color);
+	border-bottom: 1px solid var(--heading-border);
+	padding-bottom: 0.5rem;
+}
+
+:global(.dark) .inner h2 {
+	--heading-color: var(--color-white);
+	--heading-border: #333333;
 }
 
 .inner h3 {
-  margin: 1.5rem 0 1rem 0;
-  font-size: var(--font-size-20);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-gray-400);
+	--heading-color: var(--color-gray-400);
+	margin: 1.5rem 0 1rem 0;
+	font-size: var(--font-size-20);
+	font-weight: var(--font-weight-semibold);
+	color: var(--heading-color);
+}
+
+:global(.dark) .inner h3 {
+	--heading-color: var(--color-white);
 }
 
 .inner p {
-  margin: 1rem 0;
-  line-height: 1.6;
-  color: var(--color-gray-300);
-  font-size: var(--font-size-16);
+	--text-color: var(--color-gray-300);
+	margin: 1rem 0;
+	line-height: 1.6;
+	color: var(--text-color);
+	font-size: var(--font-size-16);
+}
+
+:global(.dark) .inner p {
+	--text-color: var(--color-gray-200);
 }
 
 .inner section {
-  margin: 2rem 0;
+	margin: 2rem 0;
 }
 
 .inner pre {
-  background: var(--color-gray-100);
-  border: 1px solid var(--color-gray-200);
-  border-radius: 8px;
-  padding: 1rem;
-  overflow-x: auto;
-  margin: 1rem 0;
+	--pre-bg: var(--color-gray-100);
+	--pre-border: var(--color-gray-200);
+	background: var(--pre-bg);
+	border: 1px solid var(--pre-border);
+	border-radius: 8px;
+	padding: 1rem;
+	overflow-x: auto;
+	margin: 1rem 0;
+}
+
+:global(.dark) .inner pre {
+	--pre-bg: #1a1a1a;
+	--pre-border: #333333;
 }
 
 .inner code {
-  font-size: var(--font-size-14);
-  color: var(--color-gray-400);
+	--code-color: var(--color-gray-400);
+	font-size: var(--font-size-14);
+	color: var(--code-color);
+}
+
+:global(.dark) .inner code {
+	--code-color: var(--color-gray-200);
 }
 
 .inner p code {
-  background: var(--color-gray-100);
-  padding: 0.2em 0.4em;
-  border-radius: 3px;
-  font-size: var(--font-size-14);
+	--inline-code-bg: var(--color-gray-100);
+	background: var(--inline-code-bg);
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: var(--font-size-14);
+}
+
+:global(.dark) .inner p code {
+	--inline-code-bg: #2a2a2a;
+}
+
+.inner table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 1rem 0;
+	font-size: var(--font-size-14);
+}
+
+.inner table th,
+.inner table td {
+	--table-border: var(--color-gray-200);
+	padding: 0.75rem;
+	text-align: left;
+	border: 1px solid var(--table-border);
+}
+
+:global(.dark) .inner table th,
+:global(.dark) .inner table td {
+	--table-border: #333333;
+}
+
+.inner table th {
+	--table-head-bg: var(--color-gray-100);
+	--table-head-color: var(--color-gray-400);
+	background: var(--table-head-bg);
+	font-weight: var(--font-weight-semibold);
+	color: var(--table-head-color);
+}
+
+:global(.dark) .inner table th {
+	--table-head-bg: #1a1a1a;
+	--table-head-color: var(--color-white);
+}
+
+.inner table td {
+	--table-cell-color: var(--color-gray-300);
+	color: var(--table-cell-color);
+}
+
+:global(.dark) .inner table td {
+	--table-cell-color: var(--color-gray-200);
+}
+
+.inner table code {
+	--table-code-bg: var(--color-gray-100);
+	background: var(--table-code-bg);
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+}
+
+:global(.dark) .inner table code {
+	--table-code-bg: #2a2a2a;
 }
