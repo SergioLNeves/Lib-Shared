@@ -227,7 +227,8 @@ Contribuições são bem-vindas! Por favor:
 
 ## Licença
 
-MIT © [SergioLNeves](https://github.com/SergioLNeves)
+MIT© [SergioLNeves](https://github.com/SergioLNeves) [G-Villarinho](https://github.com/g-villarinho)
+
 
 ## Links
 
