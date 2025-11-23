@@ -1,0 +1,28 @@
+.label {
+	--label-color: var(--color-black);
+	--label-disabled-opacity: 0.7;
+
+	font-size: 0.875rem;
+	font-weight: 500;
+	line-height: 1;
+	color: var(--label-color);
+	cursor: pointer;
+}
+
+:global(.dark) .label {
+	--label-color: var(--color-white);
+}
+
+.label:has(+ :disabled),
+.label[data-disabled="true"] {
+	opacity: var(--label-disabled-opacity);
+	cursor: not-allowed;
+}
+
+.label:has(+ [data-invalid="true"]) {
+	color: var(--color-red-100);
+}
+
+:global(.dark) .label:has(+ [data-invalid="true"]) {
+	color: var(--color-light-red-100);
+}

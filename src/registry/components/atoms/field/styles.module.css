@@ -1,0 +1,299 @@
+.fieldSet {
+	--field-gap: 1.5rem;
+	--field-checkbox-gap: 0.75rem;
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--field-gap);
+}
+
+.fieldSet:has(> [data-slot="checkbox-group"]),
+.fieldSet:has(> [data-slot="radio-group"]) {
+	gap: var(--field-checkbox-gap);
+}
+
+.fieldLegend {
+	--legend-font-size: 1rem;
+	--label-font-size: 0.875rem;
+	--legend-margin: 0.75rem;
+
+	margin-bottom: var(--legend-margin);
+	font-weight: 500;
+}
+
+.fieldLegend[data-variant="legend"] {
+	font-size: var(--legend-font-size);
+}
+
+.fieldLegend[data-variant="label"] {
+	font-size: var(--label-font-size);
+}
+
+.fieldGroup {
+	--field-group-gap: 1.75rem;
+	--field-nested-gap: 1rem;
+
+	container-type: inline-size;
+	container-name: field-group;
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	gap: var(--field-group-gap);
+}
+
+.fieldGroup [data-slot="checkbox-group"] {
+	gap: var(--field-checkbox-gap);
+}
+
+.fieldGroup > [data-slot="field-group"] {
+	gap: var(--field-nested-gap);
+}
+
+.field {
+	--field-gap: 0.75rem;
+	--field-destructive-color: var(--color-red-100);
+
+	display: flex;
+	width: 100%;
+	gap: var(--field-gap);
+}
+
+:global(.dark) .field {
+	--field-destructive-color: var(--color-light-red-100);
+}
+
+.field[data-invalid="true"] {
+	color: var(--field-destructive-color);
+}
+
+.fieldVertical {
+	flex-direction: column;
+}
+
+.fieldVertical > * {
+	width: 100%;
+}
+
+.fieldVertical > .sr-only {
+	width: auto;
+}
+
+.fieldHorizontal {
+	flex-direction: row;
+	align-items: center;
+}
+
+.fieldHorizontal [data-slot="field-label"] {
+	flex: 1 1 auto;
+}
+
+.fieldHorizontal:has(> [data-slot="field-content"]) {
+	align-items: flex-start;
+}
+
+.fieldHorizontal:has(> [data-slot="field-content"]) [role="checkbox"],
+.fieldHorizontal:has(> [data-slot="field-content"]) [role="radio"] {
+	margin-top: 1px;
+}
+
+.fieldResponsive {
+	flex-direction: column;
+}
+
+.fieldResponsive > * {
+	width: 100%;
+}
+
+.fieldResponsive > .sr-only {
+	width: auto;
+}
+
+@container field-group (min-width: 768px) {
+	.fieldResponsive {
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.fieldResponsive > * {
+		width: auto;
+	}
+
+	.fieldResponsive [data-slot="field-label"] {
+		flex: 1 1 auto;
+	}
+
+	.fieldResponsive:has(> [data-slot="field-content"]) {
+		align-items: flex-start;
+	}
+
+	.fieldResponsive:has(> [data-slot="field-content"]) [role="checkbox"],
+	.fieldResponsive:has(> [data-slot="field-content"]) [role="radio"] {
+		margin-top: 1px;
+	}
+}
+
+.fieldContent {
+	--field-content-gap: 0.375rem;
+
+	display: flex;
+	flex: 1 1 0%;
+	flex-direction: column;
+	gap: var(--field-content-gap);
+	line-height: 1.375;
+}
+
+.fieldLabel {
+	--field-label-gap: 0.5rem;
+	--field-label-border-color: var(--color-gray-200);
+	--field-label-checked-bg: rgba(59, 130, 246, 0.05);
+	--field-label-checked-border: var(--color-blue-100);
+
+	display: flex;
+	width: fit-content;
+	gap: var(--field-label-gap);
+	line-height: 1.375;
+}
+
+:global(.dark) .fieldLabel {
+	--field-label-border-color: var(--color-gray-800);
+	--field-label-checked-bg: rgba(59, 130, 246, 0.1);
+	--field-label-checked-border: var(--color-light-blue-100);
+}
+
+.field[data-disabled="true"] .fieldLabel {
+	opacity: 0.5;
+}
+
+.fieldLabel:has(> [data-slot="field"]) {
+	width: 100%;
+	flex-direction: column;
+	border-radius: 0.375rem;
+	border: 1px solid var(--field-label-border-color);
+}
+
+.fieldLabel:has(> [data-slot="field"]) > * {
+	padding: 1rem;
+}
+
+.fieldLabel:has([data-state="checked"]) {
+	background-color: var(--field-label-checked-bg);
+	border-color: var(--field-label-checked-border);
+}
+
+.fieldTitle {
+	--field-title-gap: 0.5rem;
+
+	display: flex;
+	width: fit-content;
+	align-items: center;
+	gap: var(--field-title-gap);
+	font-size: 0.875rem;
+	line-height: 1.375;
+	font-weight: 500;
+}
+
+.field[data-disabled="true"] .fieldTitle {
+	opacity: 0.5;
+}
+
+.fieldDescription {
+	--field-description-color: var(--color-gray-500);
+	--field-description-link-color: var(--color-blue-100);
+
+	color: var(--field-description-color);
+	font-size: 0.875rem;
+	line-height: 1.5;
+	font-weight: 400;
+}
+
+:global(.dark) .fieldDescription {
+	--field-description-color: var(--color-gray-400);
+	--field-description-link-color: var(--color-light-blue-100);
+}
+
+.fieldDescription:last-child {
+	margin-top: 0;
+}
+
+.fieldDescription:nth-last-child(2) {
+	margin-top: -0.25rem;
+}
+
+.fieldLegend[data-variant="legend"] + .fieldDescription {
+	margin-top: -0.375rem;
+}
+
+.field:has([data-orientation="horizontal"]) .fieldDescription {
+	text-wrap: balance;
+}
+
+.fieldDescription a {
+	text-decoration: underline;
+	text-underline-offset: 4px;
+	color: var(--field-description-link-color);
+}
+
+.fieldDescription a:hover {
+	color: var(--field-description-link-color);
+}
+
+.fieldSeparator {
+	--separator-height: 1.25rem;
+	--separator-margin: -0.5rem;
+
+	position: relative;
+	height: var(--separator-height);
+	margin-top: var(--separator-margin);
+	margin-bottom: var(--separator-margin);
+	font-size: 0.875rem;
+}
+
+.fieldGroup[data-variant="outline"] .fieldSeparator {
+	margin-bottom: var(--separator-margin);
+}
+
+.fieldSeparatorLine {
+	position: absolute;
+	inset: 0;
+	top: 50%;
+}
+
+.fieldSeparator[data-content="true"] .fieldSeparatorContent {
+	--separator-bg: var(--color-white);
+	--separator-color: var(--color-gray-500);
+
+	background-color: var(--separator-bg);
+	color: var(--separator-color);
+	position: relative;
+	display: block;
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+}
+
+:global(.dark) .fieldSeparator[data-content="true"] .fieldSeparatorContent {
+	--separator-bg: var(--color-black);
+	--separator-color: var(--color-gray-400);
+}
+
+.fieldError {
+	--field-error-color: var(--color-red-100);
+
+	color: var(--field-error-color);
+	font-size: 0.875rem;
+	font-weight: 400;
+}
+
+:global(.dark) .fieldError {
+	--field-error-color: var(--color-light-red-100);
+}
+
+.fieldErrorList {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	margin-left: 1rem;
+	list-style-type: disc;
+}
